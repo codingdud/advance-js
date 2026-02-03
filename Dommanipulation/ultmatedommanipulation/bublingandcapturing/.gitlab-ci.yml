@@ -1,0 +1,15 @@
+# GitLab CI/CD configuration for deploying HTML/CSS/JS site to GitLab Pages
+image: alpine:latest  # Lightweight Linux image
+
+pages:
+  stage: deploy
+  script:
+    - mkdir .public
+    - cp -r * .public
+    - mv .public public  # GitLab Pages expects a 'public' folder
+  artifacts:
+    paths:
+      - public
+  only:
+    - main  # Deploy only when pushing to the 'main' branch
+

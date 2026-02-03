@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form handeling</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Form Handeling</h1>
+    <form id="Myform" action="submit">
+      <div class="form-group">
+        <label for="name">Enter your name:</label>
+        <input type="text" id="name" name="name" placeholder="name..." />
+      </div>
+      <div class="form-group">
+        <label for="age">Enter your age</label>
+        <input type="number" id="age" name="age" placeholder="18" />
+      </div>
+      <div>
+        <button type="submit">Submit</button>
+        <button id="resetBt" type="reset">Reset</button>
+        <button id="update" type="button">Update</button>
+      </div>
+    </form>
+    <div id="result" style="visibility: hidden"><details></details></div>
+    <script src="./script.js" defer></script>
+  </body>
+</html>

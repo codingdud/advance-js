@@ -1,0 +1,32 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+html,body{
+    height: 100%;
+    width:100%;
+}
+h1{
+    text-align: center;
+}
+input{
+    display: block;
+    padding: 4px;
+    border-bottom: 2px dotted blue;
+}
+button{
+    background-color: aquamarine;
+    border-radius: 4px;
+    border: 3px groove green;
+    padding: 4px;
+    font-size: 18px;
+}
+body{
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid black;
+}
+button:hover{
+    transform: scale(1.5);
+}

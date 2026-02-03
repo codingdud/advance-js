@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Worker - Advanced Caching Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .status.active {
+            background: #4caf50;
+            color: white;
+        }
+
+        .status.inactive {
+            background: #f44336;
+            color: white;
+        }
+
+        .status.installing {
+            background: #ff9800;
+            color: white;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .card p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            min-height: 60px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .result.loading {
+            border-color: #ff9800;
+            background: #fff3e0;
+        }
+
+        .result.success {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+
+        .result.error {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .cache-info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+
+        .cache-info h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+        }
+
+        .cache-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .cache-item {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            border: 2px solid #1976d2;
+            color: #1976d2;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .controls button {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .log {
+            background: #263238;
+            color: #aed581;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin-bottom: 8px;
+            padding: 5px;
+            border-left: 3px solid #aed581;
+            padding-left: 10px;
+        }
+
+        .log-entry.error {
+            border-left-color: #ff5252;
+            color: #ff5252;
+        }
+
+        .log-entry.success {
+            border-left-color: #69f0ae;
+            color: #69f0ae;
+        }
+
+        .offline-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #f44336;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s;
+        }
+
+        .offline-indicator.show {
+            display: block;
+        }
+
+        .offline-indicator.online {
+            background: #4caf50;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-indicator" id="offlineIndicator">
+        📡 You are offline
+    </div>
+
+    <div class="container">
+        <h1>🚀 Service Worker Advanced Caching</h1>
+        <div class="status inactive" id="swStatus">Service Worker: Not Active</div>
+
+        <div class="grid">
+            <!-- Cache First Strategy -->
+            <div class="card">
+                <h3>📦 Cache First <span class="badge">Static</span></h3>
+                <p>Best for: Images, CSS, JS files. Serves from cache instantly, falls back to network. Using FreeAPI Dogs 🐕</p>
+                <button onclick="testCacheFirst()">Load Dog Data</button>
+                <div class="result" id="cacheFirstResult"></div>
+            </div>
+
+            <!-- Network First Strategy -->
+            <div class="card">
+                <h3>🌐 Network First <span class="badge">API</span></h3>
+                <p>Best for: API data. Always tries network first, uses cache as fallback when offline. Using FreeAPI Products 🛍️</p>
+                <button onclick="testNetworkFirst()">Fetch Product Data</button>
+                <div class="result" id="networkFirstResult"></div>
+            </div>
+
+            <!-- Stale While Revalidate -->
+            <div class="card">
+                <h3>🔄 Stale While Revalidate <span class="badge">Dynamic</span></h3>
+                <p>Best for: News feeds. Returns cache instantly, updates in background. Using FreeAPI Quotes 💭</p>
+                <button onclick="testStaleWhileRevalidate()">Load Quote</button>
+                <div class="result" id="swrResult"></div>
+            </div>
+
+            <!-- Cache Only -->
+            <div class="card">
+                <h3>💾 Cache Only <span class="badge">Offline</span></h3>
+                <p>Best for: App shell. Only serves from cache, no network requests. Using FreeAPI Meals 🍽️</p>
+                <button onclick="testCacheOnly()">Load Meal Data</button>
+                <div class="result" id="cacheOnlyResult"></div>
+            </div>
+
+            <!-- Network Only -->
+            <div class="card">
+                <h3>⚡ Network Only <span class="badge">Critical</span></h3>
+                <p>Best for: Payments, auth. Always fetches from network, never cached. Using FreeAPI Jokes 😂</p>
+                <button onclick="testNetworkOnly()">Fetch Fresh Joke</button>
+                <div class="result" id="networkOnlyResult"></div>
+            </div>
+
+            <!-- Background Sync -->
+            <div class="card">
+                <h3>🔁 Background Sync <span class="badge">Queue</span></h3>
+                <p>Queues requests when offline, syncs when connection restored.</p>
+                <button onclick="testBackgroundSync()">Send Message (Offline OK)</button>
+                <div class="result" id="syncResult"></div>
+            </div>
+        </div>
+
+        <div class="cache-info">
+            <h3>📊 Cache Information</h3>
+            <div class="controls">
+                <button onclick="showCaches()">Show All Caches</button>
+                <button onclick="clearAllCaches()">Clear All Caches</button>
+                <button onclick="updateServiceWorker()">Update Service Worker</button>
+                <button onclick="unregisterSW()">Unregister SW</button>
+            </div>
+            <div class="cache-list" id="cacheList"></div>
+        </div>
+
+        <div class="log" id="log">
+            <div class="log-entry success">🎉 Service Worker Demo Ready</div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

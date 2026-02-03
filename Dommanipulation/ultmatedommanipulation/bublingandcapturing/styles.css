@@ -1,0 +1,64 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+}
+
+h1{
+    text-align: center;
+    color:blueviolet;
+    padding: 1rem;
+}
+
+
+#actions{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 8px;
+    padding: 8px;
+    border: 1px groove darkblue;
+    background-color:turquoise;
+    margin: 1rem;
+}
+button{
+    padding: 8px;
+    margin: 8px;
+    border-radius: 8px;
+    border: 2px dashed gray;
+}
+button:hover{
+    border: 2px solid burlywood;
+}
+
+button:focus{
+    background-color:bisque;
+}
+
+.parent{
+    border: 2px groove lightgreen;
+    padding: 1rem;
+    margin: 1rem;
+}
+.controls{
+    display: flex;
+    justify-content: space-between;
+}
+span{
+    font-size: 14px;
+}
+/* make only checkboxes smaller without changing label text */
+.controls input[type="checkbox"]{
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    margin: 0 4px 0 0;
+    vertical-align: middle;
+}
