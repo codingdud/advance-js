@@ -12,8 +12,11 @@ h1{
 }
 input{
     display: block;
+    width:100%;
     padding: 4px;
+    border: none;
     border-bottom: 2px dotted blue;
+    margin: 1rem;
 }
 button{
     background-color: aquamarine;
@@ -29,4 +32,10 @@ body{
 }
 button:hover{
     transform: scale(1.5);
+}
+button::selection{
+    background-color: brown;
+}
+button:active{
+    background-color: blanchedalmond;
 }

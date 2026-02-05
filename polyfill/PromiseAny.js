@@ -19,10 +19,10 @@ Promise.myany=function(promise){
         promise.forEach((p,i) => {
             p.then(res).catch(f=>{
                 failsafe[i]=f;
-                if(++count===promise.length) rej(failsafe)
+                if(++count===promise.length) rej(new AggregateError(failsafe, "All promises were rejected"));
             })
         });
     })
 }
-Promise.any([p1,p2,p3]).then(console.log).catch(console.log);
+Promise.any([p3]).then(console.log).catch(console.log);
 Promise.myany([p3]).then(console.log).catch(console.log);
