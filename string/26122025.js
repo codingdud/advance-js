@@ -1,7 +1,7 @@
 function maxnumberafterKSwaps(num, k) {
     let arrStr = num.split("");
     let len = arrStr.length;
-    for (let i = 0; i < arrStr.length - 1 && k > 0 && arrStr[i] < "5"; i++) {
+    for (let i = 0; i < arrStr.length-1 && k > 0 && arrStr[i] < "5"; i++) {
         arrStr[i] = '5';
         k--;
     }

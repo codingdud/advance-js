@@ -4,7 +4,7 @@ class Payment {
             throw new Error("abstract class can't create object from abstract class!😁");
         }
     }
-    pay(amount) {
+    pay() {
         throw new Error("Method must be implemented");
     }
 }

@@ -11,3 +11,5 @@ console.log(arr);
 arr.unshift(102);
 console.log(arr);
 console.log(arr.slice(0,3));
+console.log(arr.splice(1,1,0))
+console.log(arr)

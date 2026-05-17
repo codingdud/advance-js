@@ -34,3 +34,23 @@ it.next(12) → a = 12 → yield 2
 it.next(13) → b = 13 → yield 3
 it.next(14) → c = 14 → console.log(12,13,14) → return 4 
 */
+
+
+/* generator are special function in js that can pause it exution and resume of it later 
+sytax : function *<fname>{
+    let a=yield value;
+    return value
+}
+
+it =fname();
+it.next()
+it.next() 
+
+exuter(y=10){
+res=it.next(y);
+if(res.don){
+break;}esle{
+excuter(y++)}
+}
+
+*/

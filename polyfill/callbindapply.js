@@ -1,3 +1,9 @@
+/* 
+Guaranteed unique
+Cannot clash with user-defined keys
+Not enumerable
+Invisible to normal object usage 
+*/
 let Persone={
     fname:"Animesh",
     lname:"kumar"
@@ -37,3 +43,4 @@ Details.apply(Persone,["delhi","gurugram"])
 Details.myapply(Persone,["delhi","gurugram"])
 Details.bind(Persone,"huryna","ragisthan")();
 Details.mybind(null,"huryna")("ragisthan");
+

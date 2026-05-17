@@ -28,5 +28,5 @@ async function resolver(){
     console.log("promise 2");
     console.log(b);
 }
-resolver()
+console.log(resolver())
 

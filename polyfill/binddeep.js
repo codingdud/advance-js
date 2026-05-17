@@ -1,3 +1,12 @@
+/* 
+Guaranteed unique
+
+Cannot clash with user-defined keys
+
+Not enumerable
+
+Invisible to normal object usage 
+*/
 Function.prototype.mybind=function(...arg1){
     return (...arg2)=>{
         return this.mycall(...arg1,...arg2);
@@ -5,8 +14,11 @@ Function.prototype.mybind=function(...arg1){
 }
 Function.prototype.mycall=function(context,...args){
     if(!context) context={};
-    context.fn=this;
-    return context.fn(...args);
+    fnkey=Symbol('fn')
+    context[fnkey]=this;
+    let res = context[fnkey](...args);
+    delete context[fnkey];
+    return res;
 }
 let Persone={
     fname:"Animesh",

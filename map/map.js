@@ -14,4 +14,5 @@ console.log(map.size,map.get('a'));
 for(let [key,value] of map) console.log(key,value);
 for(let key of map.keys()) console.log(key);
 for(let value of map.values()) console.log(value);
+console.log("statrt++++++++++++")
 map.clear();

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Revice DOM Practice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <p class="eyebrow">Practice Project</p>
+        <h1>Revice DOM Manipulation Lab</h1>
+        <p class="hero-copy">
+          A small project for revising selectors, events, delegation, bubbling,
+          forms, scrolling, and web storage in one place.
+        </p>
+        <div class="hero-status">
+          <span id="cardCount">0 cards created</span>
+          <span id="taskCount">3 tasks in list</span>
+        </div>
+      </header>
+
+      <main class="grid-layout">
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>1. Selector and Element Lab</h2>
+            <p>Create, update, and remove DOM nodes.</p>
+          </div>
+          <div class="stack">
+            <label class="label" for="cardTitle">Card title</label>
+            <input id="cardTitle" type="text" placeholder="Write a topic name" />
+            <div class="button-row">
+              <button id="createCardBtn" type="button">Create card</button>
+              <button id="renameFirstBtn" type="button">Rename first card</button>
+              <button id="toggleCardsBtn" type="button">Toggle highlight</button>
+            </div>
+            <div id="cardBoard" class="card-board"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>2. Event Practice</h2>
+            <p>Click, type, and scroll to see DOM changes.</p>
+          </div>
+          <div class="stack">
+            <button id="counterBtn" type="button">Click counter</button>
+            <p class="output" id="counterOutput">Button clicked 0 times.</p>
+
+            <label class="label" for="liveInput">Live text mirror</label>
+            <input id="liveInput" type="text" placeholder="Type here" />
+            <p class="output" id="liveOutput">Mirror: nothing typed yet.</p>
+
+            <div class="scroll-box-wrapper">
+              <div class="progress-track">
+                <div id="scrollProgress" class="progress-fill"></div>
+              </div>
+              <div id="scrollBox" class="scroll-box">
+                <p>Scroll inside this box to update the progress bar.</p>
+                <p>DOM manipulation gets easier with repetition.</p>
+                <p>Observe scrollTop and scrollHeight behavior.</p>
+                <p>Practice adding classes while scrolling.</p>
+                <p>Use events without blocking the browser.</p>
+                <p>Small experiments are easier to debug.</p>
+                <p>Compare element selectors and node creation.</p>
+                <p>Try changing this content from JavaScript later.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>3. Event Delegation</h2>
+            <p>One listener manages a whole task list.</p>
+          </div>
+          <div class="stack">
+            <label class="label" for="taskInput">Add task</label>
+            <div class="button-row">
+              <input id="taskInput" type="text" placeholder="Example: practice classList" />
+              <button id="addTaskBtn" type="button">Add</button>
+            </div>
+            <ul id="taskList" class="task-list">
+              <li class="task-item" data-id="1">
+                <span>Practice query selectors</span>
+                <div class="task-actions">
+                  <button data-action="complete" type="button">Complete</button>
+                  <button data-action="remove" type="button">Remove</button>
+                </div>
+              </li>
+              <li class="task-item" data-id="2">
+                <span>Practice createElement</span>
+                <div class="task-actions">
+                  <button data-action="complete" type="button">Complete</button>
+                  <button data-action="remove" type="button">Remove</button>
+                </div>
+              </li>
+              <li class="task-item" data-id="3">
+                <span>Practice event bubbling</span>
+                <div class="task-actions">
+                  <button data-action="complete" type="button">Complete</button>
+                  <button data-action="remove" type="button">Remove</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>4. Bubbling and Capturing</h2>
+            <p>Click the inner box and inspect event order.</p>
+          </div>
+          <div class="stack">
+            <div class="propagation-demo">
+              <div id="outerBox" class="layer outer">
+                Outer
+                <div id="middleBox" class="layer middle">
+                  Middle
+                  <div id="innerBox" class="layer inner">Inner</div>
+                </div>
+              </div>
+            </div>
+            <button id="clearLogBtn" type="button">Clear log</button>
+            <ol id="eventLog" class="event-log"></ol>
+          </div>
+        </section>
+
+        <section class="panel panel-wide">
+          <div class="panel-heading">
+            <h2>5. Form and Web Storage</h2>
+            <p>Validate, save, load, and clear data from localStorage.</p>
+          </div>
+          <div class="split-layout">
+            <form id="profileForm" class="stack form-card">
+              <label class="label" for="username">Name</label>
+              <input id="username" name="username" type="text" required />
+
+              <label class="label" for="email">Email</label>
+              <input id="email" name="email" type="email" required />
+              <small id="emailError" class="error-text"></small>
+
+              <label class="label" for="favoriteTopic">Favorite topic</label>
+              <select id="favoriteTopic" name="favoriteTopic">
+                <option value="Selectors">Selectors</option>
+                <option value="Events">Events</option>
+                <option value="Delegation">Delegation</option>
+                <option value="Storage">Storage</option>
+              </select>
+
+              <div class="button-row">
+                <button type="submit">Save profile</button>
+                <button id="loadProfileBtn" type="button">Load profile</button>
+                <button id="clearProfileBtn" type="button">Clear saved</button>
+              </div>
+            </form>
+
+            <div class="stack preview-card">
+              <h3>Saved Profile</h3>
+              <div id="profileOutput" class="output-card">
+                No profile saved yet.
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

@@ -20,3 +20,5 @@ console.log(person1.greet())
 
 const manih=new Teacher("manish",12,"maths");
 console.log(manih.greet())
+
+

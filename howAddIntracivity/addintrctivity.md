@@ -7,10 +7,10 @@
 ```js
 const itemArr=document.querySelectAll("li");
 const toggle=(e)=>{
-    if(e.taget.className){
-        e.taget.className="done";
+    if(e.target.className){
+        e.target.className="done";
     }else{
-        e.taget.className="";
+        e.target.className="";
     }
     itemArr.forEach((item)=>{
         item.addEventListener("click",toggle);
